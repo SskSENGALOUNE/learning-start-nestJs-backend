@@ -41,6 +41,21 @@ export class ProductRepository {
         });
         return records.map(record => this.toDomain(record));
     }
+    async getStats(): Promise<{ totalValue: number; totalProducts: number; averagePrice: number }> {
+        const result = await this.prisma.product.aggregate({
+            _sum: { price: true },
+            _count: { _all: true },
+            _avg: { price: true }
+        })
+
+        return {
+            totalValue: result._sum.price ?? 0,
+            totalProducts: result._count._all,
+            averagePrice: result._avg.price ?? 0
+        }
+
+
+    }
 
     async findById(id: number): Promise<ProductEntity | null> {
         const record = await this.prisma.product.findUnique({ where: { id } });

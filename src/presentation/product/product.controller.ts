@@ -11,6 +11,7 @@ import { GetProductByIdQuery } from '../../application/product/queries/get-produ
 import { GetProductsByPriceRangeQuery } from '../../application/product/queries/get-products-by-price-range/get-products-by-price-range.query';
 import { SortProductsByPriceQuery } from '../../application/product/queries/sort-products-by-price/sort-products-by-price.query';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { GetProductStatsQuery } from 'src/application/product/queries/get-product-stats/get-product-stats.query';
 
 @Controller('product')
 export class ProductController {
@@ -33,6 +34,10 @@ export class ProductController {
         @Query('maxPrice') maxPrice: string,
     ): Promise<ProductEntity[]> {
         return this.queryBus.execute(new GetProductsByPriceRangeQuery(Number(minPrice), Number(maxPrice)));
+    }
+    @Get('stats')
+    getProductStats() {
+        return this.queryBus.execute(new GetProductStatsQuery)
     }
 
     @Get('sort')

@@ -11,6 +11,7 @@ import { GetAllProductsHandler } from './application/product/queries/get-all-pro
 import { GetProductByIdHandler } from './application/product/queries/get-product-by-id/get-product-by-id.handler';
 import { GetProductsByPriceRangeHandler } from './application/product/queries/get-products-by-price-range/get-products-by-price-range.handler';
 import { SortProductsByPriceHandler } from './application/product/queries/sort-products-by-price/sort-products-by-price.handler';
+import { GetProductStatsHandler } from './application/product/queries/get-product-stats/get-product-stats.handler';
 
 const CommandHandlers = [CreateProductHandler, UpdateProductHandler, DeleteProductHandler];
 const QueryHandlers = [
@@ -18,6 +19,7 @@ const QueryHandlers = [
     GetProductByIdHandler,
     GetProductsByPriceRangeHandler,
     SortProductsByPriceHandler,
+    GetProductStatsHandler
 ];
 
 @Module({
