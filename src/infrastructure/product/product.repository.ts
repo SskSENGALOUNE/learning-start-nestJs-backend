@@ -6,8 +6,13 @@ import { ProductEntity } from '../../domain/product/product.entity';
 export class ProductRepository {
     constructor(private readonly prisma: PrismaService) { }
 
-    async findAll(): Promise<ProductEntity[]> {
-        const records = await this.prisma.product.findMany({ orderBy: { id: 'asc' } });
+    async findAll(name?: string, page: number = 1, limit: number = 10): Promise<ProductEntity[]> {
+        const records = await this.prisma.product.findMany({
+            orderBy: { id: 'asc' },
+            skip: (page - 1) * limit,
+            take: limit,
+
+        });
         return records.map(record => this.toDomain(record));
     }
 

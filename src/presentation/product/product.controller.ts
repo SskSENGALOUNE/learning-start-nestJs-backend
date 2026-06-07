@@ -10,6 +10,7 @@ import { GetAllProductsQuery } from '../../application/product/queries/get-all-p
 import { GetProductByIdQuery } from '../../application/product/queries/get-product-by-id/get-product-by-id.query';
 import { GetProductsByPriceRangeQuery } from '../../application/product/queries/get-products-by-price-range/get-products-by-price-range.query';
 import { SortProductsByPriceQuery } from '../../application/product/queries/sort-products-by-price/sort-products-by-price.query';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('product')
 export class ProductController {
@@ -19,8 +20,11 @@ export class ProductController {
     ) { }
 
     @Get()
-    getProductAll(@Query('name') name?: string): Promise<ProductEntity[]> {
-        return this.queryBus.execute(new GetAllProductsQuery(name));
+    getProductAll(
+        @Query('name') name?: string,
+        @Query() pagination?: PaginationDto
+    ): Promise<ProductEntity[]> {
+        return this.queryBus.execute(new GetAllProductsQuery(name, pagination?.page, pagination?.limit));
     }
 
     @Get('search')
