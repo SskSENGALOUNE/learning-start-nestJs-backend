@@ -27,3 +27,11 @@ model Category {
 
   @@map("categories")
 }
+
+model Customer {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+
+  @@map("customer")
+}
