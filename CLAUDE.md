@@ -62,7 +62,7 @@
 - [ ] 8. GET search แบบ partial match (LIKE / contains)
 - [ ] 9. GET filter ตาม status/state (เช่น active/inactive, pending/completed)
 - [ ] 10. GET ที่ join/รวมข้อมูลจาก relation (เช่น order พร้อมรายละเอียด customer + items)
-- [ ] 11. GET พร้อม aggregation (count, sum, average)
+- [x] 11. GET พร้อม aggregation (count, sum, average)
 - [ ] 12. GET พร้อม group by (เช่น จำนวนสินค้าต่อ category)
 - [ ] 13. GET top-N (เช่น 5 อันดับราคาสูงสุด)
 - [ ] 14. GET ที่ sort ได้หลายเงื่อนไขพร้อมกัน (multi-column sort)
