@@ -20,3 +20,10 @@ model Product {
 
   @@map("products")
 }
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map("categories")
+}
