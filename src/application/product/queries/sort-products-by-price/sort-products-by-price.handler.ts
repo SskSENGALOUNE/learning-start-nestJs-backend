@@ -8,9 +8,6 @@ export class SortProductsByPriceHandler implements IQueryHandler<SortProductsByP
     constructor(private readonly productRepository: ProductRepository) { }
 
     async execute(query: SortProductsByPriceQuery): Promise<ProductEntity[]> {
-        const products = await this.productRepository.findAll();
-        const direction = query.order === 'asc' ? 1 : -1;
-
-        return products.toSorted((a, b) => (a.price - b.price) * direction);
+        return this.productRepository.findAllSortedByPrice(query.order);
     }
 }

@@ -1,17 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { ProductEntity } from '../../domain/product/product.entity';
+import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
 
 @Injectable()
 export class ProductRepository {
     constructor(private readonly prisma: PrismaService) { }
 
-    async findAll(name?: string, page: number = 1, limit: number = 10): Promise<ProductEntity[]> {
-        const records = await this.prisma.product.findMany({
-            orderBy: { id: 'asc' },
-            skip: (page - 1) * limit,
-            take: limit,
+    async findAll(name?: string, page: number = 1, limit: number = 10): Promise<PaginatedResult<ProductEntity>> {
+        const where = name ? { name: { contains: name } } : {};
+        const [records, total] = await this.prisma.$transaction([
+            this.prisma.product.findMany({
+                where,
+                orderBy: { id: 'asc' },
+                skip: (page - 1) * limit,
+                take: limit
+            }),
+            this.prisma.product.count({ where })
+        ]);
+        return {
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+            items: records.map(record => this.toDomain(record)),
 
+        };
+    }
+    async findByPriceRange(minPrice: number, maxPrice: number): Promise<ProductEntity[]> {
+        const records = await this.prisma.product.findMany({
+            where: { price: { gte: minPrice, lte: maxPrice } },
+        });
+        return records.map(record => this.toDomain(record));
+    }
+    async findAllSortedByPrice(order: 'asc' | 'desc'): Promise<ProductEntity[]> {
+        const records = await this.prisma.product.findMany({
+            orderBy: { price: order },
         });
         return records.map(record => this.toDomain(record));
     }

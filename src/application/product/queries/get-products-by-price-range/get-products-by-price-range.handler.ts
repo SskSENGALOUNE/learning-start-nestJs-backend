@@ -8,7 +8,6 @@ export class GetProductsByPriceRangeHandler implements IQueryHandler<GetProducts
     constructor(private readonly productRepository: ProductRepository) { }
 
     async execute(query: GetProductsByPriceRangeQuery): Promise<ProductEntity[]> {
-        const products = await this.productRepository.findAll();
-        return products.filter(product => product.price >= query.minPrice && product.price <= query.maxPrice);
+        return this.productRepository.findByPriceRange(query.minPrice, query.maxPrice);
     }
 }
