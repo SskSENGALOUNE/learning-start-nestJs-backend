@@ -42,7 +42,7 @@
 - [x] 1. POST สร้าง resource ใหม่ทั้ง flow ใน module ใหม่ (เช่น `category`) *(module ใหม่)*
 - [x] 2. POST สร้าง resource ใหม่ใน module ใหม่อีกอัน (เช่น `customer`) *(module ใหม่)*
 - [x] 3. POST ที่มี validation ด้วย `class-validator` (`@IsString`, `@IsNumber`, `@Min`, ฯลฯ) *(endpoint ใหม่/ปรับ DTO เดิม)*
-- [ ] 4. POST ที่มี relation/foreign key ข้าม module (เช่น สร้าง `order` ที่อ้างอิง `customer` + `product`) *(module ใหม่)*
+- [x] 4. POST ที่มี relation/foreign key ข้าม module (เช่น สร้าง `order` ที่อ้างอิง `customer` + `product`) *(module ใหม่)*
 - [ ] 5. POST ที่ entity มี business rule ตอนสร้าง (เช่น stock ต้อง >= 0, ชื่อห้ามว่าง) *(endpoint ใหม่ + แก้ entity)*
 - [ ] 6. POST ที่ throw custom exception เมื่อข้อมูลขัดแย้ง (เช่น `ConflictException` ถ้าชื่อซ้ำ) *(endpoint ใหม่)*
 - [ ] 7. POST ที่รับ nested DTO (เช่น สร้าง order พร้อม array ของ order items ในคำขอเดียว) *(module ใหม่)*
