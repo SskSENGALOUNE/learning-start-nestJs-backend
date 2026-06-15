@@ -15,6 +15,14 @@ export class CustomerRepository {
         return record ? this.toDomain(record) : null;
     }
 
+    async findById(id: number): Promise<CustomerEntity | null> {
+        const record = await this.prisma.customer.findUnique({
+            where: { id }
+
+        })
+        return record ? this.toDomain(record) : null
+    }
+
 
     private toDomain(record: { id: number; email: string; name: string }): CustomerEntity {
         return new CustomerEntity(record.id, record.email, record.name);

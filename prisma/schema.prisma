@@ -18,6 +18,8 @@ model Product {
   name  String
   price Int
 
+  orders Order[]
+
   @@map("products")
 }
 
@@ -28,10 +30,23 @@ model Category {
   @@map("categories")
 }
 
+model Order {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  productId  Int
+  quantity   Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@map("orders")
+}
+
 model Customer {
   id    Int    @id @default(autoincrement())
   email String @unique
   name  String
+
+  orders Order[]
 
   @@map("customer")
 }
