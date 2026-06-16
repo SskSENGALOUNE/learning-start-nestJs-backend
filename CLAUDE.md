@@ -46,7 +46,7 @@
 - [ ] 5. POST ที่ entity มี business rule ตอนสร้าง (เช่น stock ต้อง >= 0, ชื่อห้ามว่าง) *(endpoint ใหม่ + แก้ entity)*
 - [x] 6. POST ที่ throw custom exception เมื่อข้อมูลขัดแย้ง (เช่น `ConflictException` ถ้าชื่อซ้ำ) *(endpoint ใหม่)*
 - [x] 7. POST ที่รับ nested DTO (เช่น สร้าง order พร้อม array ของ order items ในคำขอเดียว) *(module ใหม่)*
-- [ ] 8. POST แบบ idempotent/upsert (สร้างถ้ายังไม่มี, แก้ถ้ามีอยู่แล้ว) *(endpoint ใหม่)*
+- [x] 8. POST แบบ idempotent/upsert (สร้างถ้ายังไม่มี, แก้ถ้ามีอยู่แล้ว) *(endpoint ใหม่)*
 - [ ] 9. POST ที่มี field auto-generate/default (เช่น `createdAt`, `status` เริ่มต้นเป็น `pending`) *(endpoint ใหม่ + แก้ entity)*
 - [ ] 10. POST ที่ return response shape ไม่ตรงกับ entity ตรงๆ (เช่น ไม่ส่ง field บางตัวกลับ) *(endpoint ใหม่)*
 
@@ -54,9 +54,9 @@
 
 - [ ] 1. GET all (list ทั้งหมดของ resource ใหม่)
 - [ ] 2. GET by id
-- [ ] 3. GET filter ด้วย field เดียว (เช่น by name)
+- [x] 3. GET filter ด้วย field เดียว (เช่น by name)
 - [ ] 4. GET filter หลาย field พร้อมกัน (combine condition)
-- [ ] 5. GET พร้อม pagination (`page`, `limit`)
+- [x] 5. GET พร้อม pagination (`page`, `limit`)
 - [ ] 6. GET พร้อม sorting (`sortBy` + `order`)
 - [ ] 7. GET filter แบบ range (เช่น price ระหว่าง min-max — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
 - [ ] 8. GET search แบบ partial match (LIKE / contains)

@@ -1,4 +1,10 @@
-// TODO: ประกาศ UpsertCustomerDto
-//   - email: @IsEmail() @IsNotEmpty()
-//   - name:  @IsString() @IsNotEmpty()
-//   (ระวังอย่าสลับ decorator แบบใน create-customer.dto.ts)
+
+import { IsNotEmpty, IsString } from "class-validator";
+
+
+export class UpsertCustomerDto {
+
+    @IsString()
+    @IsNotEmpty()
+    name: string
+}
