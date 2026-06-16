@@ -31,9 +31,18 @@ model Category {
   @@map("categories")
 }
 
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  CANCELLED
+}
+
 model Order {
   id         Int         @id @default(autoincrement())
   customerId Int
+  status     OrderStatus @default(PENDING) // ← auto-set, client ไม่ต้องส่ง
+  createdAt  DateTime    @default(now())
   customer   Customer    @relation(fields: [customerId], references: [id])
   orderItems OrderItem[]
 

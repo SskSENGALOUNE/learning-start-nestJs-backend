@@ -5,13 +5,15 @@ export class OrderItemEntity {
     public readonly quantity: number,
     public readonly price: number,
     public readonly name: string,
-  ) {}
+  ) { }
 }
 
 export class OrderEntity {
   constructor(
     public readonly id: number,
     public readonly customerId: number,
+    public readonly status: string,
+    public readonly createdAt: Date,
     public readonly items: OrderItemEntity[],
-  ) {}
+  ) { }
 }

@@ -5,7 +5,7 @@ import { CreateOrderItem } from 'src/application/order/commands/create-order/cre
 
 @Injectable()
 export class OrderRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(
     customerId: number,
@@ -34,6 +34,8 @@ export class OrderRepository {
   private toDomain(record: {
     id: number;
     customerId: number;
+    status: string,
+    createdAt: Date
     orderItems: {
       id: number;
       productId: number;
@@ -44,6 +46,8 @@ export class OrderRepository {
     return new OrderEntity(
       record.id,
       record.customerId,
+      record.status,
+      record.createdAt,
       record.orderItems.map(
         (i) =>
           new OrderItemEntity(
