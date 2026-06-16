@@ -44,7 +44,7 @@
 - [x] 3. POST ที่มี validation ด้วย `class-validator` (`@IsString`, `@IsNumber`, `@Min`, ฯลฯ) *(endpoint ใหม่/ปรับ DTO เดิม)*
 - [x] 4. POST ที่มี relation/foreign key ข้าม module (เช่น สร้าง `order` ที่อ้างอิง `customer` + `product`) *(module ใหม่)*
 - [ ] 5. POST ที่ entity มี business rule ตอนสร้าง (เช่น stock ต้อง >= 0, ชื่อห้ามว่าง) *(endpoint ใหม่ + แก้ entity)*
-- [ ] 6. POST ที่ throw custom exception เมื่อข้อมูลขัดแย้ง (เช่น `ConflictException` ถ้าชื่อซ้ำ) *(endpoint ใหม่)*
+- [x] 6. POST ที่ throw custom exception เมื่อข้อมูลขัดแย้ง (เช่น `ConflictException` ถ้าชื่อซ้ำ) *(endpoint ใหม่)*
 - [ ] 7. POST ที่รับ nested DTO (เช่น สร้าง order พร้อม array ของ order items ในคำขอเดียว) *(module ใหม่)*
 - [ ] 8. POST แบบ idempotent/upsert (สร้างถ้ายังไม่มี, แก้ถ้ามีอยู่แล้ว) *(endpoint ใหม่)*
 - [ ] 9. POST ที่มี field auto-generate/default (เช่น `createdAt`, `status` เริ่มต้นเป็น `pending`) *(endpoint ใหม่ + แก้ entity)*
