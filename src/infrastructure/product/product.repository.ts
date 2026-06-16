@@ -70,15 +70,15 @@ export class ProductRepository {
     return record ? this.toDomain(record) : null;
   }
 
-  async create(name: string, price: number): Promise<ProductEntity> {
-    const record = await this.prisma.product.create({ data: { name, price } });
+  async create(name: string, price: number, stock: number): Promise<ProductEntity> {
+    const record = await this.prisma.product.create({ data: { name, price, stock } });
     return this.toDomain(record);
   }
 
   async update(product: ProductEntity): Promise<ProductEntity> {
     const record = await this.prisma.product.update({
       where: { id: product.id },
-      data: { name: product.name, price: product.price },
+      data: { name: product.name, price: product.price, stock: product.stock },
     });
     return this.toDomain(record);
   }
@@ -87,25 +87,7 @@ export class ProductRepository {
     await this.prisma.product.delete({ where: { id } });
   }
 
-    async create(name: string, price: number, stock: number): Promise<ProductEntity> {
-        const record = await this.prisma.product.create({ data: { name, price, stock } });
-
-        return this.toDomain(record);
-    }
-
-    async update(product: ProductEntity): Promise<ProductEntity> {
-        const record = await this.prisma.product.update({
-            where: { id: product.id },
-            data: { name: product.name, price: product.price },
-        });
-        return this.toDomain(record);
-    }
-
-    async remove(id: number): Promise<void> {
-        await this.prisma.product.delete({ where: { id } });
-    }
-
-    private toDomain(record: { id: number; name: string; price: number, stock: number }): ProductEntity {
-        return new ProductEntity(record.id, record.name, record.price, record.stock);
-    }
+  private toDomain(record: { id: number; name: string; price: number; stock: number }): ProductEntity {
+    return new ProductEntity(record.id, record.name, record.price, record.stock);
+  }
 }

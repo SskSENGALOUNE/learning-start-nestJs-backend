@@ -24,6 +24,15 @@ export class CustomerRepository {
     }
 
 
+    async upsert(email: string, name: string): Promise<CustomerEntity> {
+        const record = await this.prisma.customer.upsert({
+            where: { email },
+            update: { name },
+            create: { email, name },
+        });
+        return this.toDomain(record);
+    }
+
     private toDomain(record: { id: number; email: string; name: string }): CustomerEntity {
         return new CustomerEntity(record.id, record.email, record.name);
     }

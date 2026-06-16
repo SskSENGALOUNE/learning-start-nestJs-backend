@@ -4,43 +4,81 @@ import { PrismaClient } from '../generated/prisma/client';
 
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
 
-const products = [
-    { name: 'หูฟังไร้สาย Bluetooth', price: 1290 },
-    { name: 'เมาส์ไร้สาย', price: 390 },
-    { name: 'คีย์บอร์ดเกมมิ่ง', price: 1590 },
-    { name: 'สมาร์ทโฟนรุ่นกลาง', price: 8990 },
-    { name: 'พาวเวอร์แบงค์ 10000mAh', price: 590 },
-    { name: 'ลำโพงบลูทูธพกพา', price: 890 },
-    { name: 'สายชาร์จ USB-C', price: 199 },
-    { name: 'หัวชาร์จเร็ว 65W', price: 690 },
-    { name: 'จอมอนิเตอร์ 24 นิ้ว', price: 4990 },
-    { name: 'เว็บแคม HD', price: 990 },
-    { name: 'ไมโครโฟนตั้งโต๊ะ', price: 1890 },
-    { name: 'แท่นวางโน้ตบุ๊ก', price: 590 },
-    { name: 'ฮับ USB-C 6 พอร์ต', price: 890 },
-    { name: 'หูฟังครอบหูตัดเสียงรบกวน', price: 3990 },
-    { name: 'นาฬิกาอัจฉริยะ', price: 5990 },
-    { name: 'แท็บเล็ต 10 นิ้ว', price: 7990 },
-    { name: 'เคสโทรศัพท์กันกระแทก', price: 290 },
-    { name: 'ฟิล์มกระจกกันรอย', price: 99 },
-    { name: 'ที่ชาร์จไร้สาย', price: 690 },
-    { name: 'กล้องวงจรปิดในบ้าน', price: 1290 },
-    { name: 'ไดรฟ์ SSD พกพา 1TB', price: 2990 },
-    { name: 'แฟลชไดรฟ์ 64GB', price: 290 },
-    { name: 'การ์ดเมมโมรี่ 128GB', price: 590 },
-    { name: 'รีโมททีวีอัจฉริยะ', price: 690 },
-    { name: 'อะแดปเตอร์ HDMI', price: 390 },
-    { name: 'ขาตั้งมือถือ', price: 199 },
-    { name: 'ไฟ LED ตกแต่งโต๊ะทำงาน', price: 490 },
-    { name: 'พัดลมระบายความร้อนโน้ตบุ๊ก', price: 690 },
-    { name: 'เครื่องฟอกอากาศขนาดเล็ก', price: 1990 },
-    { name: 'เครื่องชาร์จแบตเตอรี่ AA/AAA', price: 390 },
-];
-
 async function main() {
+    // 1. Clear all tables (order matters — children first)
+    await prisma.orderItem.deleteMany();
+    await prisma.order.deleteMany();
     await prisma.product.deleteMany();
-    await prisma.product.createMany({ data: products });
-    console.log(`Seeded ${products.length} products`);
+    await prisma.category.deleteMany();
+    await prisma.customer.deleteMany();
+
+    // 2. Categories
+    await prisma.category.createMany({
+        data: [
+            { name: 'อิเล็กทรอนิกส์' },
+            { name: 'อุปกรณ์เสริมคอม' },
+            { name: 'สมาร์ทโฮม' },
+            { name: 'เสียงและดนตรี' },
+            { name: 'มือถือและแท็บเล็ต' },
+        ],
+    });
+    console.log('✓ categories seeded');
+
+    // 3. Products
+    await prisma.product.createMany({
+        data: [
+            { name: 'หูฟังไร้สาย Bluetooth', price: 1290, stock: 50 },
+            { name: 'เมาส์ไร้สาย', price: 390, stock: 120 },
+            { name: 'คีย์บอร์ดเกมมิ่ง', price: 1590, stock: 35 },
+            { name: 'สมาร์ทโฟนรุ่นกลาง', price: 8990, stock: 20 },
+            { name: 'พาวเวอร์แบงค์ 10000mAh', price: 590, stock: 80 },
+            { name: 'ลำโพงบลูทูธพกพา', price: 890, stock: 60 },
+        ],
+    });
+    console.log('✓ products seeded');
+
+    // 4. Customers
+    await prisma.customer.createMany({
+        data: [
+            { name: 'สมชาย ใจดี', email: 'somchai@example.com' },
+            { name: 'สุดา รักเรียน', email: 'suda@example.com' },
+            { name: 'วิชัย เก่งมาก', email: 'wichai@example.com' },
+            { name: 'มานี มีสุข', email: 'manee@example.com' },
+            { name: 'ประยุทธ์ สบายดี', email: 'prayut@example.com' },
+        ],
+    });
+    console.log('✓ customers seeded');
+
+    // 5. Orders + OrderItems (ต้องดึง id มาก่อน)
+    const [c1, c2, c3] = await prisma.customer.findMany({ take: 3, orderBy: { id: 'asc' } });
+    const [p1, p2, p3, p4] = await prisma.product.findMany({ take: 4, orderBy: { id: 'asc' } });
+
+    const order1 = await prisma.order.create({ data: { customerId: c1.id } });
+    await prisma.orderItem.createMany({
+        data: [
+            { orderId: order1.id, productId: p1.id, quantity: 2 },
+            { orderId: order1.id, productId: p2.id, quantity: 1 },
+        ],
+    });
+
+    const order2 = await prisma.order.create({ data: { customerId: c2.id } });
+    await prisma.orderItem.createMany({
+        data: [
+            { orderId: order2.id, productId: p3.id, quantity: 1 },
+            { orderId: order2.id, productId: p4.id, quantity: 3 },
+        ],
+    });
+
+    const order3 = await prisma.order.create({ data: { customerId: c3.id } });
+    await prisma.orderItem.createMany({
+        data: [
+            { orderId: order3.id, productId: p1.id, quantity: 1 },
+            { orderId: order3.id, productId: p3.id, quantity: 2 },
+        ],
+    });
+
+    console.log('✓ orders + order items seeded');
+    console.log('Done!');
 }
 
 main()

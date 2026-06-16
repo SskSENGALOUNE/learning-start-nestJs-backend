@@ -52,7 +52,7 @@ export class ProductController {
 
     @Post()
     createProduct(@Body() dto: CreateProductDto): Promise<ProductEntity> {
-        return this.commandBus.execute(new CreateProductCommand(dto.name, dto.price));
+        return this.commandBus.execute(new CreateProductCommand(dto.name, dto.price, dto.stock));
     }
 
     @Patch(':id')
