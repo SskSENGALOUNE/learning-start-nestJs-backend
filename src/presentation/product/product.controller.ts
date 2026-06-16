@@ -12,6 +12,7 @@ import { GetProductsByPriceRangeQuery } from '../../application/product/queries/
 import { SortProductsByPriceQuery } from '../../application/product/queries/sort-products-by-price/sort-products-by-price.query';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { GetProductStatsQuery } from 'src/application/product/queries/get-product-stats/get-product-stats.query';
+import { CreateProductResponseDto } from './dto/create-product-response.dto';
 
 @Controller('product')
 export class ProductController {
@@ -51,8 +52,17 @@ export class ProductController {
     }
 
     @Post()
-    createProduct(@Body() dto: CreateProductDto): Promise<ProductEntity> {
-        return this.commandBus.execute(new CreateProductCommand(dto.name, dto.price, dto.stock));
+    async createProduct(@Body() dto: CreateProductDto): Promise<CreateProductResponseDto> {
+        const product = await this.commandBus.execute(
+            new CreateProductCommand(dto.name, dto.price, dto.stock)
+        );
+        return {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+        };
+
+        // return this.commandBus.execute(new CreateProductCommand(dto.name, dto.price, dto.stock));
     }
 
     @Patch(':id')

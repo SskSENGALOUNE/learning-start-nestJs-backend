@@ -48,7 +48,7 @@
 - [x] 7. POST ที่รับ nested DTO (เช่น สร้าง order พร้อม array ของ order items ในคำขอเดียว) *(module ใหม่)*
 - [x] 8. POST แบบ idempotent/upsert (สร้างถ้ายังไม่มี, แก้ถ้ามีอยู่แล้ว) *(endpoint ใหม่)*
 - [x] 9. POST ที่มี field auto-generate/default (เช่น `createdAt`, `status` เริ่มต้นเป็น `pending`) *(endpoint ใหม่ + แก้ entity)*
-- [ ] 10. POST ที่ return response shape ไม่ตรงกับ entity ตรงๆ (เช่น ไม่ส่ง field บางตัวกลับ) *(endpoint ใหม่)*
+- [x] 10. POST ที่ return response shape ไม่ตรงกับ entity ตรงๆ (เช่น ไม่ส่ง field บางตัวกลับ) *(endpoint ใหม่)*
 
 ## GET — อ่านข้อมูล หลายสถานการณ์ (20 ครั้ง)
 
