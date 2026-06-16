@@ -18,7 +18,7 @@ model Product {
   name  String
   price Int
 
-  orders Order[]
+  orderItems OrderItem[]
 
   @@map("products")
 }
@@ -31,14 +31,23 @@ model Category {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   customerId Int
-  productId  Int
-  quantity   Int
-  customer   Customer @relation(fields: [customerId], references: [id])
-  product    Product  @relation(fields: [productId], references: [id])
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  orderItems OrderItem[]
 
   @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
 }
 
 model Customer {

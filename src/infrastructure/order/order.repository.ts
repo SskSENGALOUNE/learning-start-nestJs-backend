@@ -1,29 +1,59 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/common/prisma/prisma.service";
-import { OrderEntity } from "src/domain/order/order.entity";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { OrderEntity, OrderItemEntity } from 'src/domain/order/order.entity';
+import { CreateOrderItem } from 'src/application/order/commands/create-order/create-order.command';
 
 @Injectable()
 export class OrderRepository {
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-    async create(customerId: number, productId: number, quantity: number): Promise<OrderEntity> {
-        // TODO: this.prisma.order.create({ data: { customerId, productId, quantity } })
-        //       แล้วแปลงผลลัพธ์ด้วย this.toDomain(record)
+  async create(
+    customerId: number,
+    items: CreateOrderItem[],
+  ): Promise<OrderEntity> {
+    const record = await this.prisma.order.create({
+      data: {
+        customerId,
+        orderItems: {
+          create: items.map((i) => ({
+            productId: i.productId,
+            quantity: i.quantity,
+          })),
+        },
+      },
+      include: {
+        orderItems: {
+          include: { product: true },
+        },
+      },
+    });
 
-        const record = await this.prisma.order.create({
-            data: {
-                customerId,
-                productId,
-                quantity
-            }
-        });
+    return this.toDomain(record);
+  }
 
-
-        return this.toDomain(record);
-    }
-
-    private toDomain(record: { id: number; customerId: number; productId: number; quantity: number }): OrderEntity {
-        // TODO: return new OrderEntity(record.id, record.customerId, record.productId, record.quantity)
-        return new OrderEntity(record.id, record.customerId, record.productId, record.quantity)
-    }
+  private toDomain(record: {
+    id: number;
+    customerId: number;
+    orderItems: {
+      id: number;
+      productId: number;
+      quantity: number;
+      product: { price: number; name: string };
+    }[];
+  }): OrderEntity {
+    return new OrderEntity(
+      record.id,
+      record.customerId,
+      record.orderItems.map(
+        (i) =>
+          new OrderItemEntity(
+            i.id,
+            i.productId,
+            i.quantity,
+            i.product.price,
+            i.product.name,
+          ),
+      ),
+    );
+  }
 }

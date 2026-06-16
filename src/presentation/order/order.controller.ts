@@ -16,6 +16,6 @@ export class OrderController {
     @Post()
     createOrder(@Body() dto: CreateOrderDto): Promise<OrderEntity> {
 
-        return this.commandBus.execute(new CreateOrderCommand(dto.customerId, dto.productId, dto.quantity))
+        return this.commandBus.execute(new CreateOrderCommand(dto.customerId, dto.items))
     }
 }
