@@ -3,8 +3,9 @@ import { CreateCategoryHandler } from "./application/category/commands/create-ca
 import { CqrsModule } from "@nestjs/cqrs";
 import { CategoryController } from "./presentation/category/category.controller";
 import { CategoryRepository } from "./infrastructure/category/category.repository";
+import { GetAllCategoriesHandler } from "./application/category/query/get-all-categories.handler";
 
-const CommandHandlers = [CreateCategoryHandler];
+const CommandHandlers = [CreateCategoryHandler, GetAllCategoriesHandler];
 
 @Module({
     imports: [CqrsModule],
