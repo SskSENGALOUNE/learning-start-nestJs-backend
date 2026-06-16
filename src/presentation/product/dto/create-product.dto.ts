@@ -8,4 +8,10 @@ export class CreateProductDto {
     @IsNumber()
     @Min(0)
     price: number;
+
+    @IsNumber()
+    @Min(0)
+    stock: number;
+
+
 }
