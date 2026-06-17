@@ -60,7 +60,7 @@
 - [x] 6. GET พร้อม sorting (`sortBy` + `order`)
 - [x] 7. GET filter แบบ range (เช่น price ระหว่าง min-max — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
 - [x] 8. GET search แบบ partial match (LIKE / contains)
-- [ ] 9. GET filter ตาม status/state (เช่น active/inactive, pending/completed)
+- [x] 9. GET filter ตาม status/state (เช่น active/inactive, pending/completed)
 - [ ] 10. GET ที่ join/รวมข้อมูลจาก relation (เช่น order พร้อมรายละเอียด customer + items)
 - [x] 11. GET พร้อม aggregation (count, sum, average)
 - [ ] 12. GET พร้อม group by (เช่น จำนวนสินค้าต่อ category)
