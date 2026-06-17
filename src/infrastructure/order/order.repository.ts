@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { OrderEntity, OrderItemEntity } from 'src/domain/order/order.entity';
 import { CreateOrderItem } from 'src/application/order/commands/create-order/create-order.command';
+import { OrderStatus } from 'generated/prisma/enums';
 
 @Injectable()
 export class OrderRepository {
@@ -29,6 +30,19 @@ export class OrderRepository {
     });
 
     return this.toDomain(record);
+  }
+
+  async findByStatus(status: OrderStatus): Promise<OrderEntity[]> {
+    const records = await this.prisma.order.findMany({
+      where: { status },
+      include: {
+        orderItems: {
+          include: { product: true }
+        }
+      }
+    })
+
+    return records.map(r => this.toDomain(r))
   }
 
   private toDomain(record: {
