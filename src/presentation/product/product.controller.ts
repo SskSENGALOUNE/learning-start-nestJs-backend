@@ -13,6 +13,8 @@ import { SortProductsByPriceQuery } from '../../application/product/queries/sort
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { GetProductStatsQuery } from 'src/application/product/queries/get-product-stats/get-product-stats.query';
 import { CreateProductResponseDto } from './dto/create-product-response.dto';
+import { GetProductsByFiltersQuery } from '../../application/product/queries/get-products-by-filters/get-products-by-filters.query';
+import { FilterProductDto } from './dto/filter-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -44,6 +46,11 @@ export class ProductController {
     @Get('sort')
     sortProductByPrice(@Query('order') order: 'asc' | 'desc' = 'asc'): Promise<ProductEntity[]> {
         return this.queryBus.execute(new SortProductsByPriceQuery(order));
+    }
+
+    @Get('filter')
+    getProductByFilters(@Query() dto: FilterProductDto): Promise<ProductEntity[]> {
+        return this.queryBus.execute(new GetProductsByFiltersQuery(dto.minPrice, dto.minStock));
     }
 
     @Get(':id')

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { get } from 'http';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CategoryEntity } from 'src/domain/category/category.entity';
+import { ProductEntity } from 'src/domain/product/product.entity';
 
 @Injectable()
 export class CategoryRepository {

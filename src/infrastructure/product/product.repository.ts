@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { ProductEntity } from '../../domain/product/product.entity';
 import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
+import { Prisma } from '../../../generated/prisma/client';
 
 @Injectable()
 export class ProductRepository {
@@ -32,6 +33,24 @@ export class ProductRepository {
       items: records.map((record) => this.toDomain(record)),
     };
   }
+
+  async findByFilters(filters: {
+    minPrice?: number;
+    minStock?: number;
+  }): Promise<ProductEntity[]> {
+    const where: Prisma.ProductWhereInput = {};
+
+    if (filters.minPrice !== undefined) {
+      where.price = { gte: filters.minPrice };
+    }
+    if (filters.minStock !== undefined) {
+      where.stock = { gte: filters.minStock };
+    }
+
+    const records = await this.prisma.product.findMany({ where });
+    return records.map((record) => this.toDomain(record));
+  }
+
   async findByPriceRange(
     minPrice: number,
     maxPrice: number,
@@ -70,8 +89,14 @@ export class ProductRepository {
     return record ? this.toDomain(record) : null;
   }
 
-  async create(name: string, price: number, stock: number): Promise<ProductEntity> {
-    const record = await this.prisma.product.create({ data: { name, price, stock } });
+  async create(
+    name: string,
+    price: number,
+    stock: number,
+  ): Promise<ProductEntity> {
+    const record = await this.prisma.product.create({
+      data: { name, price, stock },
+    });
     return this.toDomain(record);
   }
 
@@ -87,7 +112,17 @@ export class ProductRepository {
     await this.prisma.product.delete({ where: { id } });
   }
 
-  private toDomain(record: { id: number; name: string; price: number; stock: number }): ProductEntity {
-    return new ProductEntity(record.id, record.name, record.price, record.stock);
+  private toDomain(record: {
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
+  }): ProductEntity {
+    return new ProductEntity(
+      record.id,
+      record.name,
+      record.price,
+      record.stock,
+    );
   }
 }

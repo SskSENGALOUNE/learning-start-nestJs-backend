@@ -12,19 +12,25 @@ import { GetProductByIdHandler } from './application/product/queries/get-product
 import { GetProductsByPriceRangeHandler } from './application/product/queries/get-products-by-price-range/get-products-by-price-range.handler';
 import { SortProductsByPriceHandler } from './application/product/queries/sort-products-by-price/sort-products-by-price.handler';
 import { GetProductStatsHandler } from './application/product/queries/get-product-stats/get-product-stats.handler';
+import { GetProductsByFiltersHandler } from './application/product/queries/get-products-by-filters/get-products-by-filters.handler';
 
-const CommandHandlers = [CreateProductHandler, UpdateProductHandler, DeleteProductHandler];
+const CommandHandlers = [
+  CreateProductHandler,
+  UpdateProductHandler,
+  DeleteProductHandler,
+];
 const QueryHandlers = [
-    GetAllProductsHandler,
-    GetProductByIdHandler,
-    GetProductsByPriceRangeHandler,
-    SortProductsByPriceHandler,
-    GetProductStatsHandler
+  GetAllProductsHandler,
+  GetProductByIdHandler,
+  GetProductsByPriceRangeHandler,
+  SortProductsByPriceHandler,
+  GetProductStatsHandler,
+  GetProductsByFiltersHandler,
 ];
 
 @Module({
-    imports: [CqrsModule],
-    controllers: [ProductController],
-    providers: [ProductRepository, ...CommandHandlers, ...QueryHandlers],
+  imports: [CqrsModule],
+  controllers: [ProductController],
+  providers: [ProductRepository, ...CommandHandlers, ...QueryHandlers],
 })
-export class ProductModule { }
+export class ProductModule {}
