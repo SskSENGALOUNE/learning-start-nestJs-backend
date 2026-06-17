@@ -55,11 +55,11 @@
 - [x] 1. GET all (list ทั้งหมดของ resource ใหม่)
 - [x] 2. GET by id
 - [x] 3. GET filter ด้วย field เดียว (เช่น by name)
-- [ ] 4. GET filter หลาย field พร้อมกัน (combine condition)
+- [x] 4. GET filter หลาย field พร้อมกัน (combine condition)
 - [x] 5. GET พร้อม pagination (`page`, `limit`)
-- [ ] 6. GET พร้อม sorting (`sortBy` + `order`)
-- [ ] 7. GET filter แบบ range (เช่น price ระหว่าง min-max — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
-- [ ] 8. GET search แบบ partial match (LIKE / contains)
+- [x] 6. GET พร้อม sorting (`sortBy` + `order`)
+- [x] 7. GET filter แบบ range (เช่น price ระหว่าง min-max — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
+- [x] 8. GET search แบบ partial match (LIKE / contains)
 - [ ] 9. GET filter ตาม status/state (เช่น active/inactive, pending/completed)
 - [ ] 10. GET ที่ join/รวมข้อมูลจาก relation (เช่น order พร้อมรายละเอียด customer + items)
 - [x] 11. GET พร้อม aggregation (count, sum, average)
@@ -75,10 +75,10 @@
 
 ## PATCH/PUT — แก้ไขข้อมูล (10 ครั้ง)
 
-- [ ] 1. PATCH partial update (แก้แค่บาง field ที่ส่งมา)
-- [ ] 2. PUT full update (แทนที่ object ทั้งก้อน)
+- [x] 1. PATCH partial update (แก้แค่บาง field ที่ส่งมา)
+- [x] 2. PUT full update (แทนที่ object ทั้งก้อน)
 - [ ] 3. PATCH ที่ต้องผ่าน business rule validation ก่อนเปลี่ยน (เช่น เปลี่ยน status ต้องอยู่ใน flow ที่อนุญาต)
-- [ ] 4. PATCH ที่ throw `NotFoundException` เมื่อไม่พบ record
+- [x] 4. PATCH ที่ throw `NotFoundException` เมื่อไม่พบ record
 - [ ] 5. PATCH ที่ throw exception จาก domain entity เอง (เช่น `changePrice` ห้ามติดลบ — ลองทำกับ resource อื่น)
 - [ ] 6. PATCH ที่แก้ relation (เช่น ย้าย product ไป category อื่น)
 - [ ] 7. PATCH แบบ bulk (อัปเดตหลาย record ตามเงื่อนไขในคำขอเดียว)
@@ -88,8 +88,8 @@
 
 ## DELETE — ลบข้อมูล (5 ครั้ง)
 
-- [ ] 1. DELETE hard delete (ลบออกจาก database จริง — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
-- [ ] 2. DELETE ที่ throw `NotFoundException` เมื่อไม่พบ record
+- [x] 1. DELETE hard delete (ลบออกจาก database จริง — ของเดิมมีแล้ว ลองทำกับ resource อื่น)
+- [x] 2. DELETE ที่ throw `NotFoundException` เมื่อไม่พบ record
 - [ ] 3. DELETE แบบ soft delete (mark `deletedAt`/`isActive: false` แทนการลบจริง)
 - [ ] 4. DELETE ที่ต้องเช็ค relation ก่อนลบ (เช่น ห้ามลบ category ที่ยังมี product ผูกอยู่ → throw exception)
 - [ ] 5. DELETE แบบ bulk/by-condition (เช่น ลบสินค้าทั้งหมดที่ status = `discontinued`)

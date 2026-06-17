@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { get } from 'http';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CategoryEntity } from 'src/domain/category/category.entity';
-import { ProductEntity } from 'src/domain/product/product.entity';
 
 @Injectable()
 export class CategoryRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(name: string): Promise<CategoryEntity> {
     const record = await this.prisma.category.create({ data: { name } });
@@ -22,7 +20,17 @@ export class CategoryRepository {
     const record = await this.prisma.category.findMany();
     return record.map((r) => new CategoryEntity(r.id, r.name));
   }
-
+  async searchByName(keyword: string): Promise<CategoryEntity[]> {
+    const record = await this.prisma.category.findMany({
+      where: {
+        name: {
+          contains: keyword,
+          mode: 'insensitive'
+        }
+      }
+    })
+    return record.map((r) => new CategoryEntity(r.id, r.name))
+  }
   async findById(id: number): Promise<CategoryEntity | null> {
     const record = await this.prisma.category.findUnique({
       where: { id },
