@@ -52,8 +52,8 @@
 
 ## GET — อ่านข้อมูล หลายสถานการณ์ (20 ครั้ง)
 
-- [ ] 1. GET all (list ทั้งหมดของ resource ใหม่)
-- [ ] 2. GET by id
+- [x] 1. GET all (list ทั้งหมดของ resource ใหม่)
+- [x] 2. GET by id
 - [x] 3. GET filter ด้วย field เดียว (เช่น by name)
 - [ ] 4. GET filter หลาย field พร้อมกัน (combine condition)
 - [x] 5. GET พร้อม pagination (`page`, `limit`)
@@ -66,7 +66,7 @@
 - [ ] 12. GET พร้อม group by (เช่น จำนวนสินค้าต่อ category)
 - [ ] 13. GET top-N (เช่น 5 อันดับราคาสูงสุด)
 - [ ] 14. GET ที่ sort ได้หลายเงื่อนไขพร้อมกัน (multi-column sort)
-- [ ] 15. GET by id ที่ throw `NotFoundException` เมื่อไม่พบ
+- [x] 15. GET by id ที่ throw `NotFoundException` เมื่อไม่พบ
 - [ ] 16. GET ที่มี default query param เมื่อผู้ใช้ไม่ส่งมา (เช่น `order = 'asc'`)
 - [ ] 17. GET ที่รวม filter + sort + paginate ในคำขอเดียว
 - [ ] 18. GET exists/count check (เช่น เช็คว่ามีสินค้าชื่อนี้อยู่แล้วหรือยัง)

@@ -4,7 +4,7 @@ import { CategoryEntity } from 'src/domain/category/category.entity';
 
 @Injectable()
 export class CategoryRepository {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(name: string): Promise<CategoryEntity> {
     const record = await this.prisma.category.create({ data: { name } });
@@ -17,8 +17,15 @@ export class CategoryRepository {
   }
 
   async findAll(): Promise<CategoryEntity[]> {
-    const record = await this.prisma.category.findMany()
-    return record.map((r) => new CategoryEntity(r.id, r.name))
+    const record = await this.prisma.category.findMany();
+    return record.map((r) => new CategoryEntity(r.id, r.name));
+  }
+
+  async findById(id: number): Promise<CategoryEntity | null> {
+    const record = await this.prisma.category.findUnique({
+      where: { id },
+    });
+    return record ? this.toDomain(record) : null;
   }
 
   private toDomain(record: { id: number; name: string }): CategoryEntity {
