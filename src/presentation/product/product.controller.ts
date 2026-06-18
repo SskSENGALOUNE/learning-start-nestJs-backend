@@ -15,6 +15,7 @@ import { GetProductStatsQuery } from 'src/application/product/queries/get-produc
 import { CreateProductResponseDto } from './dto/create-product-response.dto';
 import { GetProductsByFiltersQuery } from '../../application/product/queries/get-products-by-filters/get-products-by-filters.query';
 import { FilterProductDto } from './dto/filter-product.dto';
+import { GetProductsByCategoryQuery } from 'src/application/product/queries/get-products-by-category.ts/get-products-by-category.query';
 
 @Controller('product')
 export class ProductController {
@@ -51,6 +52,11 @@ export class ProductController {
     @Get('filter')
     getProductByFilters(@Query() dto: FilterProductDto): Promise<ProductEntity[]> {
         return this.queryBus.execute(new GetProductsByFiltersQuery(dto.minPrice, dto.minStock));
+    }
+
+    @Get('by-category')
+    getByCategory() {
+        return this.queryBus.execute(new GetProductsByCategoryQuery())
     }
 
     @Get(':id')

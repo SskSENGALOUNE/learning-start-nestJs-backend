@@ -6,7 +6,7 @@ import { Prisma } from '../../../generated/prisma/client';
 
 @Injectable()
 export class ProductRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(
     name?: string,
@@ -33,6 +33,23 @@ export class ProductRepository {
       items: records.map((record) => this.toDomain(record)),
     };
   }
+
+  async countByCategory() {
+    const result = await this.prisma.product.groupBy({
+      by: ['categoryId'],
+      _count: { id: true },
+    });
+
+    // ดึงชื่อ category มา map
+    const categories = await this.prisma.category.findMany();
+
+    return result.map(r => ({
+      categoryName: categories.find(c => c.id === r.categoryId)?.name ?? 'ไม่มี category',
+      count: r._count.id,
+    }));
+  }
+
+
 
   async findByFilters(filters: {
     minPrice?: number;

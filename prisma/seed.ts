@@ -24,15 +24,17 @@ async function main() {
     });
     console.log('✓ categories seeded');
 
-    // 3. Products
+    // 3. Products (with categoryId)
+    const [catElec, catComp, , catSound, catMobile] = await prisma.category.findMany({ orderBy: { id: 'asc' } });
+
     await prisma.product.createMany({
         data: [
-            { name: 'หูฟังไร้สาย Bluetooth', price: 1290, stock: 50 },
-            { name: 'เมาส์ไร้สาย', price: 390, stock: 120 },
-            { name: 'คีย์บอร์ดเกมมิ่ง', price: 1590, stock: 35 },
-            { name: 'สมาร์ทโฟนรุ่นกลาง', price: 8990, stock: 20 },
-            { name: 'พาวเวอร์แบงค์ 10000mAh', price: 590, stock: 80 },
-            { name: 'ลำโพงบลูทูธพกพา', price: 890, stock: 60 },
+            { name: 'หูฟังไร้สาย Bluetooth', price: 1290, stock: 50, categoryId: catSound.id },
+            { name: 'เมาส์ไร้สาย', price: 390, stock: 120, categoryId: catComp.id },
+            { name: 'คีย์บอร์ดเกมมิ่ง', price: 1590, stock: 35, categoryId: catComp.id },
+            { name: 'สมาร์ทโฟนรุ่นกลาง', price: 8990, stock: 20, categoryId: catMobile.id },
+            { name: 'พาวเวอร์แบงค์ 10000mAh', price: 590, stock: 80, categoryId: catElec.id },
+            { name: 'ลำโพงบลูทูธพกพา', price: 890, stock: 60, categoryId: catSound.id },
         ],
     });
     console.log('✓ products seeded');

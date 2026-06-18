@@ -13,6 +13,7 @@ import { GetProductsByPriceRangeHandler } from './application/product/queries/ge
 import { SortProductsByPriceHandler } from './application/product/queries/sort-products-by-price/sort-products-by-price.handler';
 import { GetProductStatsHandler } from './application/product/queries/get-product-stats/get-product-stats.handler';
 import { GetProductsByFiltersHandler } from './application/product/queries/get-products-by-filters/get-products-by-filters.handler';
+import { GetProductsByCategoryHandler } from './application/product/queries/get-products-by-category.ts/get-products-by-category.handler';
 
 const CommandHandlers = [
   CreateProductHandler,
@@ -26,6 +27,7 @@ const QueryHandlers = [
   SortProductsByPriceHandler,
   GetProductStatsHandler,
   GetProductsByFiltersHandler,
+  GetProductsByCategoryHandler
 ];
 
 @Module({
@@ -33,4 +35,4 @@ const QueryHandlers = [
   controllers: [ProductController],
   providers: [ProductRepository, ...CommandHandlers, ...QueryHandlers],
 })
-export class ProductModule {}
+export class ProductModule { }
