@@ -92,4 +92,47 @@ export class BankAccountRepository {
         return { data, ms };
     }
 
+    async getTopNPerGroupOrm(n: number) {
+        const t = startTimer(`TOP_${n}_ORM`);
+        const banks = await this.prisma.bankAccount.findMany({
+            where: { isActive: true },
+            select: { bankName: true },
+            distinct: ['bankName'],
+        });
+        const results = await Promise.all(
+            banks.map(({ bankName }) =>
+                this.prisma.bankAccount.findMany({
+                    where: { bankName, isActive: true },
+                    orderBy: { balance: 'desc' },
+                    take: n,
+                    select: { id: true, accountNumber: true, bankName: true, balance: true },
+                })
+            )
+        );
+        const ms = t.stop();
+        return { data: results.flat(), ms };
+    }
+
+    async getTopNPerGroup(n: number) {
+        const t = startTimer(`TOP_${n}_PER_GROUP`);
+        const data = await this.prisma.$queryRaw<any[]>`
+    SELECT * FROM (
+  SELECT
+    id, "accountNumber", "bankName", balance,
+    ROW_NUMBER() OVER (
+      PARTITION BY "bankName"
+      ORDER BY balance DESC
+    )::int AS rank
+    FROM bank_accounts
+     WHERE "isActive" = true
+    ) ranked
+    WHERE rank <= ${n}
+    ORDER BY "bankName", rank
+
+  `;
+        const ms = t.stop();
+        return { data, ms };
+    }
+
+
 }

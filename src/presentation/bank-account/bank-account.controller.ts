@@ -8,6 +8,8 @@ import { GetAccountStatsQuery } from "src/application/bank-account/queries/get-a
 import { GetAccountsCursorQuery } from "src/application/bank-account/queries/get-accounts-cursor/get-accounts-cursor.query";
 import { GetAccountsFilterQuery } from "src/application/bank-account/queries/get-accounts-filter/get-accounts-filter.query";
 import { GetBenchmarkQuery } from "src/application/bank-account/queries/get-benchmark/get-benchmark.query";
+import { GetTopAccountsQuery } from "src/application/bank-account/queries/get-top-accounts/get-top-accounts.query";
+import { GetTopAccountsOrmQuery } from "src/application/bank-account/queries/get-top-accounts-orm/get-top-accounts-orm.query";
 
 @Controller('bank-accounts')
 export class BankAccountController {
@@ -37,6 +39,15 @@ export class BankAccountController {
 
     @Get('stats')
     getStats() { return this.queryBus.execute(new GetAccountStatsQuery()); }
+
+    @Get('top')
+    getTopAccounts(@Query('n') n: string) {
+        return this.queryBus.execute(new GetTopAccountsQuery(Number(n) || 3));
+    }
+    @Get('top/orm')
+    getTopAccountsOrm(@Query('n') n: string) {
+        return this.queryBus.execute(new GetTopAccountsOrmQuery(Number(n) || 3));
+    }
 
 
     @Get('benchmark')

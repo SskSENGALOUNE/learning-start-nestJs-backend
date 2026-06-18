@@ -109,7 +109,7 @@
 - [ ] 8. **Filter without useful index** — filter ด้วย field ที่ไม่มี index (เช่น `interestRate`) เปรียบ ms
 - [ ] 9. **Composite index query** — filter ด้วย `accountType + isActive` พร้อมกัน (ใช้ composite index `@@index([accountType, isActive])`)
 - [ ] 10. **Balance range query** — `GET /bank-accounts/range?min=&max=` filter บน indexed field (`balance`) วัด ms
-- [ ] 11. **Top-N per group** — บัญชีที่มี balance สูงสุด 3 อันดับแรกของแต่ละ bankName ใช้ Raw SQL หรือ Prisma
+- [x] 11. **Top-N per group** — บัญชีที่มี balance สูงสุด 3 อันดับแรกของแต่ละ bankName ใช้ Raw SQL หรือ Prisma
 - [ ] 12. **Date range filter** — `GET /bank-accounts/by-date?from=&to=` filter `lastTransactionAt` ระหว่างวันที่
 - [ ] 13. **Count + exists check** — `GET /bank-accounts/exists?accountNumber=` return `{ exists: bool, totalActive: number }` ใน query เดียว
 - [ ] 14. **Full-text / partial search** — `GET /bank-accounts/search?q=` ค้นหาใน `bankName` แบบ contains พร้อม pagination
