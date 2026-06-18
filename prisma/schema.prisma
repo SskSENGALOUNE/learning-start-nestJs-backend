@@ -71,3 +71,53 @@ model Customer {
 
   @@map("customer")
 }
+
+enum Currency {
+  KIP
+  THB
+  USD
+}
+
+enum AccountType {
+  SAVINGS
+  CHECKING
+  FIXED_DEPOSIT
+}
+
+enum UserTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  phoneNumber  String?
+  dateOfBirth  DateTime?
+  tier         UserTier      @default(BRONZE)
+  isVerified   Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  bankAccounts BankAccount[]
+
+  @@map("users")
+}
+
+model BankAccount {
+  id                Int         @id @default(autoincrement())
+  userId            Int
+  accountNumber     String      @unique
+  bankName          String
+  balance           Int         @default(0)
+  accountType       AccountType
+  interestRate      Float       @default(0)
+  currency          Currency    @default(KIP)
+  isActive          Boolean     @default(true)
+  lastTransactionAt DateTime?
+  createdAt         DateTime    @default(now())
+  user              User        @relation(fields: [userId], references: [id])
+
+  @@map("bank_accounts")
+}
