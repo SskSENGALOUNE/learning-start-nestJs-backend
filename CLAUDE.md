@@ -99,12 +99,12 @@
 > ใช้ dataset ขนาดใหญ่ (100k–200k rows) บน `BankAccount` module เพื่อฝึก query ขั้นสูงและวัดผลจริง
 > ทุกข้อให้ **log เวลา** ด้วย `startTimer` และเปรียบเทียบใน response body
 
-- [ ] 1. **Offset pagination** — `GET /bank-accounts/offset?page=&limit=` บันทึก ms ที่ page ต้นๆ vs page ท้ายๆ
-- [ ] 2. **Cursor-based pagination** — `GET /bank-accounts/cursor?cursor=&limit=` เปรียบ ms กับ offset ที่ position เดียวกัน
-- [ ] 3. **SELECT \* vs SELECT fields** — filter เดียวกัน แต่ version แรกดึงทุก field / version สองดึงเฉพาะ 5 field ที่ใช้จริง
-- [ ] 4. **Raw SQL aggregation** — `GET /bank-accounts/stats/raw` ใช้ `$queryRaw` GROUP BY bankName+accountType พร้อม SUM/AVG
-- [ ] 5. **Prisma ORM groupBy** — `GET /bank-accounts/stats/orm` ใช้ `.groupBy()` แบบเดียวกัน เปรียบ ms กับ raw SQL
-- [ ] 6. **Benchmark endpoint** — `GET /bank-accounts/benchmark` รัน 5 วิธีข้างบนในคำขอเดียว return JSON เปรียบเทียบ ms ทุกแบบ
+- [x] 1. **Offset pagination** — `GET /bank-accounts/offset?page=&limit=` บันทึก ms ที่ page ต้นๆ vs page ท้ายๆ
+- [x] 2. **Cursor-based pagination** — `GET /bank-accounts/cursor?cursor=&limit=` เปรียบ ms กับ offset ที่ position เดียวกัน
+- [x] 3. **SELECT \* vs SELECT fields** — filter เดียวกัน แต่ version แรกดึงทุก field / version สองดึงเฉพาะ 5 field ที่ใช้จริง
+- [x] 4. **Raw SQL aggregation** — `GET /bank-accounts/stats/raw` ใช้ `$queryRaw` GROUP BY bankName+accountType พร้อม SUM/AVG
+- [x] 5. **Prisma ORM groupBy** — `GET /bank-accounts/stats/orm` ใช้ `.groupBy()` แบบเดียวกัน เปรียบ ms กับ raw SQL
+- [x] 6. **Benchmark endpoint** — `GET /bank-accounts/benchmark` รัน 5 วิธีข้างบนในคำขอเดียว return JSON เปรียบเทียบ ms ทุกแบบ
 - [ ] 7. **Filter with index** — `GET /bank-accounts/filter?bankName=BCEL&isActive=true` ใช้ index ที่สร้างไว้ ดู EXPLAIN ใน Supabase
 - [ ] 8. **Filter without useful index** — filter ด้วย field ที่ไม่มี index (เช่น `interestRate`) เปรียบ ms
 - [ ] 9. **Composite index query** — filter ด้วย `accountType + isActive` พร้อมกัน (ใช้ composite index `@@index([accountType, isActive])`)
