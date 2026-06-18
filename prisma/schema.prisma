@@ -119,5 +119,8 @@ model BankAccount {
   createdAt         DateTime    @default(now())
   user              User        @relation(fields: [userId], references: [id])
 
+  @@index([bankName])
+  @@index([accountType, isActive])
+  @@index([balance])
   @@map("bank_accounts")
 }
