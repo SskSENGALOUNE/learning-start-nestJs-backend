@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderEntity } from "src/domain/order/order.entity";
@@ -6,6 +6,7 @@ import { OrderEntity } from "src/domain/order/order.entity";
 import { CreateOrderCommand } from "src/application/order/commands/create-order/create-order.command";
 import { OrderStatus } from "generated/prisma/enums";
 import { GetOrdersByStatusQuery } from "src/application/order/query/get-by-status.query";
+import { GetOrderByIdQuery } from "src/application/order/query/get-by-id.query";
 
 
 @Controller('order')
@@ -24,5 +25,8 @@ export class OrderController {
     getByStatus(@Query('status') status: OrderStatus) {
         return this.queryBus.execute(new GetOrdersByStatusQuery(status));
     }
-
+    @Get(':id')
+    getOrderById(@Param('id', ParseIntPipe) id: number) {
+        return this.queryBus.execute(new GetOrderByIdQuery(id))
+    }
 }

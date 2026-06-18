@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { OrderEntity, OrderItemEntity } from 'src/domain/order/order.entity';
 import { CreateOrderItem } from 'src/application/order/commands/create-order/create-order.command';
 import { OrderStatus } from 'generated/prisma/enums';
+import { OrderDetailResponse } from 'src/presentation/order/dto/order-detail.response';
 
 @Injectable()
 export class OrderRepository {
@@ -43,6 +44,28 @@ export class OrderRepository {
     })
 
     return records.map(r => this.toDomain(r))
+  }
+
+  async findByIdWithRelations(id: number): Promise<OrderDetailResponse> {
+    const record = await this.prisma.order.findUnique({
+      where: { id },
+      include: {
+        customer: true,
+        orderItems: {
+          include: {
+            product: true
+          }
+        }
+      }
+    })
+
+    if (!record) throw new NotFoundException(`Order ${id} not found`);
+    return {
+      id: record.id,
+      status: record.status,
+      customer: { id: record.customer.id, name: record.customer.name, email: record.customer.email },
+      items: record.orderItems.map(i => ({ productName: i.product.name, quantity: i.quantity, price: i.product.price })),
+    };
   }
 
   private toDomain(record: {

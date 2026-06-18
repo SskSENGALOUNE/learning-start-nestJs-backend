@@ -6,10 +6,11 @@ import { CustomerRepository } from "./infrastructure/customer/customer.repositor
 import { ProductRepository } from "./infrastructure/product/product.repository";
 import { CreateOrderHandler } from "./application/order/commands/create-order/create-order.handler";
 import { GetOrdersByStatusHandler } from "./application/order/query/get-by-status.handler";
+import { GetOrderByIdHandler } from "./application/order/query/get-by-id.handler";
 
 
 const CommandHandlers = [CreateOrderHandler];
-const QueryHandlers = [GetOrdersByStatusHandler]
+const QueryHandlers = [GetOrdersByStatusHandler, GetOrderByIdHandler]
 
 @Module({
     imports: [CqrsModule],
