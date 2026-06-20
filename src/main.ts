@@ -9,12 +9,13 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.enableCors();
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(
     `Application is running on: http://localhost:${process.env.PORT ?? 3000}`,
   );
   console.log(`For APi on: http://localhost:${process.env.PORT ?? 3000}/api`);
-  console.log('=====================================================')
+  console.log('=====================================================');
 }
 bootstrap();

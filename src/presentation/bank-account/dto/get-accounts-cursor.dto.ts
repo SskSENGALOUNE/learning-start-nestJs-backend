@@ -12,6 +12,6 @@ export class GetAccountsCursorDto {
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  @Max(100)
-  limit?: number = 20;
+  @Max(150)
+  limit?: number = 150;
 }
