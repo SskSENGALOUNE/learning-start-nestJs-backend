@@ -10,8 +10,9 @@ import { GetAccountsFilterHandler } from "./application/bank-account/queries/get
 import { GetTopAccountsHandler } from "./application/bank-account/queries/get-top-accounts/get-top-accounts.handler";
 import { GetTopAccountsOrmHandler } from "./application/bank-account/queries/get-top-accounts-orm/get-top-accounts-orm.handler";
 import { IndexCompareHandler } from "./application/bank-account/queries/index-compare.query/index-compare.handler";
+import { GetCompositeFilterHandler } from "./application/bank-account/queries/get-composite-filter/get-composite-filter.handler";
 
-const QueryHandlers = [GetAccountStatsHandler, GetTopAccountsOrmHandler, GetTopAccountsHandler, GetAccountsCursorHandler, GetAccountsFilterHandler, GetAccountsOffsetHandler, GetBenchmarkQueryHandler, IndexCompareHandler]
+const QueryHandlers = [GetAccountStatsHandler, GetCompositeFilterHandler, GetTopAccountsOrmHandler, GetTopAccountsHandler, GetAccountsCursorHandler, GetAccountsFilterHandler, GetAccountsOffsetHandler, GetBenchmarkQueryHandler, IndexCompareHandler]
 
 
 @Module({
