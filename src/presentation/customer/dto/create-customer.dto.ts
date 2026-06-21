@@ -2,9 +2,11 @@ import { IsEmail, IsNotEmpty, IsString } from "class-validator"
 
 export class CreateCustomerDto {
     @IsString()
+    @IsEmail()
     @IsNotEmpty()
     email: string
-    @IsEmail()
+    @IsString()
+    @IsNotEmpty()
     name: string
 
 

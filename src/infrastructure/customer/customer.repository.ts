@@ -23,6 +23,10 @@ export class CustomerRepository {
         return record ? this.toDomain(record) : null
     }
 
+async findAll(): Promise<CustomerEntity[]> {
+    const records = await this.prisma.customer.findMany();
+    return records.map((r) => this.toDomain(r));
+}
 
     async upsert(email: string, name: string): Promise<CustomerEntity> {
         const record = await this.prisma.customer.upsert({
